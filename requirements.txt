@@ -1,5 +1,5 @@
-torch
-transformers	
+torch==1.13.1
+transformers==4.38.0
 numpy
 streamlit
 pillow
