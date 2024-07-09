@@ -20,7 +20,7 @@ with col2:
     st.title('Hate Speech Detector')
 
 # Load the model and tokenizer once
-@st.cache_data
+# @st.cache_data
 def load_model():
     model_path = 'bert_base_uncased_model.pth'
     # Check if the model file does not exist and download it
