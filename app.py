@@ -4,6 +4,9 @@ import torch
 from transformers import BertTokenizer, BertForSequenceClassification
 from lime.lime_text import LimeTextExplainer
 import plotly.graph_objs as go
+import os
+import gdown
+
 
 # Load an image
 logo = Image.open("TikTok-logo.png")
@@ -19,8 +22,14 @@ with col2:
 # Load the model and tokenizer once
 @st.cache_data
 def load_model():
-    print('Once')
-    model = BertForSequenceClassification.from_pretrained('final_fine_tuned_bert/')
+    model_path = 'bert_base_uncased_model.pth'
+    # Check if the model file does not exist and download it
+    if not os.path.exists(model_path):
+        print("Downloading the model...")
+        gdown.download('https://drive.google.com/file/d/1YkZBWiPQ-LHAP1UMywGfebx1xAHxVo-B/view?usp=sharing', model_path, quiet=False)
+    
+    print('Loading model...')
+    model = torch.load(model_path)
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model.eval()  # Put the model in evaluation mode
     return model, tokenizer
