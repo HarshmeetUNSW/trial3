@@ -23,16 +23,21 @@ with col2:
 # @st.cache_data
 def load_model():
     model_path = 'bert_base_uncased_model.pth'
+    flag=False
     # Check if the model file does not exist and download it
     if not os.path.exists(model_path):
         print("Downloading the model...")
         gdown.download('https://drive.google.com/file/d/1YkZBWiPQ-LHAP1UMywGfebx1xAHxVo-B/view?usp=sharing', model_path, quiet=False)
+        flag=True
     
     print('Loading model...')
-    model = torch.load(model_path)
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    model.eval()  # Put the model in evaluation mode
-    return model, tokenizer
+    if flag == True:
+        model = torch.load(model_path)
+        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        model.eval()  # Put the model in evaluation mode
+        return model, tokenizer
+    else:
+        return None, None
 
 model, tokenizer = load_model()
 
