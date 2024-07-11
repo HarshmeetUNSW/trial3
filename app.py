@@ -4,9 +4,6 @@ import torch
 from transformers import BertTokenizer, BertForSequenceClassification
 from lime.lime_text import LimeTextExplainer
 import plotly.graph_objs as go
-import os
-import gdown
-
 
 # Load an image
 logo = Image.open("TikTok-logo.png")
@@ -20,24 +17,13 @@ with col2:
     st.title('Hate Speech Detector')
 
 # Load the model and tokenizer once
-# @st.cache_data
+@st.cache_data
 def load_model():
-    model_path = 'bert_base_uncased_model.pth'
-    flag=False
-    # Check if the model file does not exist and download it
-    if not os.path.exists(model_path):
-        print("Downloading the model...")
-        gdown.download('https://drive.google.com/file/d/1YkZBWiPQ-LHAP1UMywGfebx1xAHxVo-B/view?usp=sharing', model_path, quiet=False)
-        flag=True
-    
-    print('Loading model...')
-    if flag == True:
-        model = torch.load(model_path)
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        model.eval()  # Put the model in evaluation mode
-        return model, tokenizer
-    else:
-        return None, None
+    model = BertForSequenceClassification.from_pretrained("Techno-Paji/testing_one")
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    model.eval()  # Put the model in evaluation mode
+    return model, tokenizer
+
 
 model, tokenizer = load_model()
 
